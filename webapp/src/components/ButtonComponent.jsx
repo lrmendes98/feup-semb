@@ -1,4 +1,4 @@
-import {Button, Alert} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import React from 'react';
 import axios from 'axios';
 import './ButtonComponent.css';
