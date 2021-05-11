@@ -6,7 +6,9 @@
 This is how to run the various components of our project:
 
 #### Frontend
-To run the frontend, open a terminal in the webapp folder and execute the command:
+To run the frontend, open a terminal in the webapp folder and execute the commands:
+
+```npm install```
 
 ```npm start```
 
@@ -14,6 +16,8 @@ This will create a React app running on localhost:8080.
 
 #### Backend
 To run the frontend, open a terminal in the server folder and execute the command:
+
+```npm install```
 
 ```npm start```
 
