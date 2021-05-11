@@ -1,26 +1,28 @@
 const express = require("express");
+const { spawn } = require('child_process');
+var cors = require('cors')
+var app = express()
 
-const app = express();
+app.use(cors())
 
 const port = 8081;
 
-app.get('/', (req, res) => {
-    res.send('Received request');
-    var PORT = 4444;
-    var MCAST_ADDR = "239.0.0.1"; //not your IP and should be a Class D address, see http://www.iana.org/assignments/multicast-addresses/multicast-addresses.xhtml
-    var dgram = require('dgram');
-    var server = dgram.createSocket("udp4");
-    server.bind(PORT, function () {
-        server.setBroadcast(true);
-        server.setMulticastTTL(128);
-        server.addMembership(MCAST_ADDR);
+app.get('/switch/:id', (req, res) => {
+    console.log(req.params)
+    const python = spawn('python', ['sendMulCast.py', req.params.id]);
+    python.stdout.on('data', function (data) {
+        console.log('Pipe data from python script ...');
+        dataToSend = data.toString();
     });
+    python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        res.send(dataToSend)
+    });
+});
 
-    var message = Buffer.from("Hello");
-    server.send(message, 0, message.length, PORT, MCAST_ADDR);
-    console.log("Sent " + message + " to the wire...");
-
-    res.send('SENT');
+app.get('/', (req, res) => {
+    res.send("Server alive")
 });
 
 app.listen(port, () => {

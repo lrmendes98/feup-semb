@@ -1,21 +1,14 @@
-import Button from 'react-bootstrap/Button';
-import axios from 'axios';
+import ButtonComponent from './components/ButtonComponent';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-
-function sendPacket() {
-  axios.get('http://localhost:8081/')
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
 
 function App() {
   return (
-    <div className="App">
-      <Button onClick={sendPacket()} variant="primary">Send Packet</Button>
+    <div>
+      <ButtonComponent id="1"></ButtonComponent>
+      <ButtonComponent id="2"></ButtonComponent>
+      <ButtonComponent id="3"></ButtonComponent>
+      <ButtonComponent id="4"></ButtonComponent>
     </div>
   );
 }
