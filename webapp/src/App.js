@@ -4,7 +4,7 @@ import './App.css';
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <ButtonComponent id="1"></ButtonComponent>
       <ButtonComponent id="2"></ButtonComponent>
       <ButtonComponent id="3"></ButtonComponent>

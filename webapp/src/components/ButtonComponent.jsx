@@ -1,7 +1,7 @@
-import Button from 'react-bootstrap/Button';
+import {Button, Alert} from 'react-bootstrap';
 import React from 'react';
 import axios from 'axios';
-
+import './ButtonComponent.css';
 
 class ButtonComponent extends React.Component {
     constructor(props) {
@@ -25,7 +25,9 @@ class ButtonComponent extends React.Component {
     }
     
     render() {
-        return <Button variant = "primary" size = "lg" onClick = { this.sendPacket }>{this.id}</Button>
+        return <div className="container">
+            <Button className="button" variant={this.state.clicked ? "success" : "dark"} size="lg" onClick={this.sendPacket}>Switch {this.id}</Button>
+        </div>
     }
 }
 
