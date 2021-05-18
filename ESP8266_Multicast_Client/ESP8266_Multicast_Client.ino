@@ -9,7 +9,7 @@ const char* ssid = "HUAWEI P10";
 const char* password = "2072cac61e06";
 
 WiFiUDP Udp;
-IPAddress multicastAddress(239,0,0,1);
+IPAddress multicastAddress(239, 0, 0, 1);
 unsigned int multicastPort = 4444;
 
 char incomingPacket[BUFFER_LENGTH];
@@ -24,7 +24,7 @@ const int SWITCH_3_PIN = 2;
 const int SWITCH_4_PIN = 0;
 int switches[SWITCH_N];
 
-void setup(){
+void setup() {
 
   for (int i = 0; i < SWITCH_N; i++) {
     switches[i] = 0;
@@ -38,13 +38,13 @@ void setup(){
   pinMode(SWITCH_3_PIN, INPUT_PULLUP);
   pinMode(SWITCH_4_PIN, INPUT_PULLUP);
   Serial.begin(115200);
-  
+
   WiFi.mode(WIFI_STA); //station
   wifi_set_sleep_type(NONE_SLEEP_T); //LIGHT_SLEEP_T and MODE_SLEEP_T
-  
+
   Serial.print("Connecting to ");
   Serial.print(ssid);
-  
+
   WiFi.begin(ssid, password);
   int i = 0;
   while (WiFi.status() != WL_CONNECTED)
@@ -52,17 +52,17 @@ void setup(){
     delay(1000);
     Serial.print(++i); Serial.print(' ');
   }
-  
+
   Serial.println("Connection established!");
-  
+
   Udp.beginMulticast(WiFi.localIP(), multicastAddress, multicastPort);
 }
 
 void receivePacket() {
-  int packetLength = Udp.parsePacket(); 
-  if(packetLength){
+  int packetLength = Udp.parsePacket();
+  if (packetLength) {
     int len = Udp.read(incomingPacket, BUFFER_LENGTH);
-    if (len > 0){
+    if (len > 0) {
       incomingPacket[len] = 0;
       Serial.print("Received: ");
       Serial.printf("%s\n", incomingPacket);
@@ -71,9 +71,21 @@ void receivePacket() {
       int id = (int)incomingPacket[0] - 48;
       Serial.println(id);
       int state = (int)incomingPacket[2] - 48;
-      switches[id] = state;  
+      switches[id] = state;
     }
   }
+}
+
+void sendPacket(int id, int state) {
+  char msg[4];
+  msg[0] = (char) id + 48;
+  msg[1] = 32;
+  msg[2] = (char) state + 48;
+  msg[3] = 0;
+  Serial.println(msg);
+  Udp.beginPacketMulticast(multicastAddress, multicastPort, WiFi.localIP());
+  Udp.write(msg);
+  Udp.endPacket();
 }
 
 void updateLeds() {
@@ -82,69 +94,44 @@ void updateLeds() {
   switches[3] ? digitalWrite(LED_3_PIN, HIGH) : digitalWrite(LED_3_PIN, LOW);
   switches[4] ? digitalWrite(LED_4_PIN, HIGH) : digitalWrite(LED_4_PIN, LOW);
 }
-/*
+
 void readSwitch_1() {
-  int newSwitch_1 = !digitalRead(SWITCH_1_PIN);
-  if (switch_1 != newSwitch_1) {
-    switch_1 = newSwitch_1;
-    if (switch_1) {
-      Serial.println("Switch 1 ON");
-      digitalWrite(LED_1_PIN, HIGH);
-    } else {
-      Serial.println("Switch 1 OFF");
-      digitalWrite(LED_1_PIN, LOW);
-    }
+  int newSwitch = !digitalRead(SWITCH_1_PIN);
+  if (newSwitch != switches[1]) {
+    switches[1] = newSwitch;
+    sendPacket(1, newSwitch);
   }
 }
 
 void readSwitch_2() {
-  int newSwitch_2 = !digitalRead(SWITCH_2_PIN);
-  if (switch_2 != newSwitch_2) {
-    switch_2 = newSwitch_2;
-    if (switch_2) {
-      Serial.println("Switch 2 ON");
-      digitalWrite(LED_2_PIN, HIGH);
-    } else {
-      Serial.println("Switch 2 OFF");
-      digitalWrite(LED_2_PIN, LOW);
-    }
+  int newSwitch = !digitalRead(SWITCH_2_PIN);
+  if (newSwitch != switches[2]) {
+    switches[2] = newSwitch;
+    sendPacket(2, newSwitch);
   }
 }
 
 void readSwitch_3() {
-  int newSwitch_3 = !digitalRead(SWITCH_3_PIN);
-  if (switch_3 != newSwitch_3) {
-    switch_3 = newSwitch_3;
-    if (switch_3) {
-      Serial.println("Switch 3 ON");
-      digitalWrite(LED_3_PIN, HIGH);
-    } else {
-      Serial.println("Switch 3 OFF");
-      digitalWrite(LED_3_PIN, LOW);
-    }
+  int newSwitch = !digitalRead(SWITCH_3_PIN);
+  if (newSwitch != switches[3]) {
+    switches[3] = newSwitch;
+    sendPacket(3, newSwitch);
   }
 }
 
 void readSwitch_4() {
-  int newSwitch_4 = !digitalRead(SWITCH_4_PIN);
-  if (switch_4 != newSwitch_4) {
-    switch_4 = newSwitch_4;
-    if (switch_4) {
-      Serial.println("Switch 4 ON");
-      digitalWrite(LED_4_PIN, HIGH);
-    } else {
-      Serial.println("Switch 4 OFF");
-      digitalWrite(LED_4_PIN, LOW);
-    }
+  int newSwitch = !digitalRead(SWITCH_4_PIN);
+  if (newSwitch != switches[4]) {
+    switches[4] = newSwitch;
+    sendPacket(4, newSwitch);
   }
 }
-*/
 
 void loop() {
   receivePacket();
-  updateLeds();
-  //readSwitch_1();
-  //readSwitch_2();
+  readSwitch_1();
+  readSwitch_2();
   //readSwitch_3();
   //readSwitch_4();
+  updateLeds();
 }
