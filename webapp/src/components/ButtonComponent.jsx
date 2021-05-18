@@ -13,15 +13,15 @@ class ButtonComponent extends React.Component {
     }
 
     sendPacket = () => {
+        const url = `http://localhost:8081/switch`
+        axios.post(url, {id: this.id, state: !this.state.clicked})
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
         this.setState({ clicked: !this.state.clicked });
-        const url = `http://localhost:8081/switch/${this.id}`
-        axios.get(url)
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
     }
     
     render() {

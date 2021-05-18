@@ -3,6 +3,7 @@
 #include "user_interface.h"
 
 #define BUFFER_LENGTH 256
+#define SWITCH_N 32
 
 const char* ssid = "HUAWEI P10";
 const char* password = "2072cac61e06";
@@ -21,13 +22,13 @@ const int SWITCH_1_PIN = 4;
 const int SWITCH_2_PIN = 5;
 const int SWITCH_3_PIN = 2;
 const int SWITCH_4_PIN = 0;
-int switch_1 = 0;
-int switch_2 = 0;
-int switch_3 = 0;
-int switch_4 = 0;
+int switches[SWITCH_N];
 
 void setup(){
 
+  for (int i = 0; i < SWITCH_N; i++) {
+    switches[i] = 0;
+  }
   pinMode(LED_1_PIN, OUTPUT);
   pinMode(LED_2_PIN, OUTPUT);
   pinMode(LED_3_PIN, OUTPUT);
@@ -57,6 +58,31 @@ void setup(){
   Udp.beginMulticast(WiFi.localIP(), multicastAddress, multicastPort);
 }
 
+void receivePacket() {
+  int packetLength = Udp.parsePacket(); 
+  if(packetLength){
+    int len = Udp.read(incomingPacket, BUFFER_LENGTH);
+    if (len > 0){
+      incomingPacket[len] = 0;
+      Serial.print("Received: ");
+      Serial.printf("%s\n", incomingPacket);
+      if (len < 3)
+        return;
+      int id = (int)incomingPacket[0] - 48;
+      Serial.println(id);
+      int state = (int)incomingPacket[2] - 48;
+      switches[id] = state;  
+    }
+  }
+}
+
+void updateLeds() {
+  switches[1] ? digitalWrite(LED_1_PIN, HIGH) : digitalWrite(LED_1_PIN, LOW);
+  switches[2] ? digitalWrite(LED_2_PIN, HIGH) : digitalWrite(LED_2_PIN, LOW);
+  switches[3] ? digitalWrite(LED_3_PIN, HIGH) : digitalWrite(LED_3_PIN, LOW);
+  switches[4] ? digitalWrite(LED_4_PIN, HIGH) : digitalWrite(LED_4_PIN, LOW);
+}
+/*
 void readSwitch_1() {
   int newSwitch_1 = !digitalRead(SWITCH_1_PIN);
   if (switch_1 != newSwitch_1) {
@@ -112,65 +138,11 @@ void readSwitch_4() {
     }
   }
 }
+*/
 
 void loop() {
-  int packetLength = Udp.parsePacket(); 
-  if(packetLength){
-    int len = Udp.read(incomingPacket, BUFFER_LENGTH);
-    if (len > 0){
-      incomingPacket[len] = 0;
-      Serial.print("Recieved: ");
-      Serial.printf("%s\n", incomingPacket);
-      if (strcmp(incomingPacket, "1") == 0) {
-        switch_1 ? switch_1 = 0 : switch_1 = 1;
-        Serial.println(switch_1);
-        if (switch_1) {
-          Serial.println("Switch 1 ON");
-          digitalWrite(LED_1_PIN, HIGH);
-        } else {
-          Serial.println("Switch 1 OFF");
-          digitalWrite(LED_1_PIN, LOW);
-        }
-      }
-
-      if (strcmp(incomingPacket, "2") == 0) {
-        switch_2 ? switch_2 = 0 : switch_2 = 1;
-        Serial.println(switch_2);
-        if (switch_2) {
-          Serial.println("Switch 2 ON");
-          digitalWrite(LED_2_PIN, HIGH);
-        } else {
-          Serial.println("Switch 2 OFF");
-          digitalWrite(LED_2_PIN, LOW);
-        }
-      }
-
-      if (strcmp(incomingPacket, "3") == 0) {
-        switch_3 ? switch_3 = 0 : switch_3 = 1;
-        Serial.println(switch_3);
-        if (switch_3) {
-          Serial.println("Switch 3 ON");
-          digitalWrite(LED_3_PIN, HIGH);
-        } else {
-          Serial.println("Switch 3 OFF");
-          digitalWrite(LED_3_PIN, LOW);
-        }
-      }
-
-      if (strcmp(incomingPacket, "4") == 0) {
-        switch_4 ? switch_4 = 0 : switch_4 = 1;
-        Serial.println(switch_4);
-        if (switch_4) {
-          Serial.println("Switch 4 ON");
-          digitalWrite(LED_4_PIN, HIGH);
-        } else {
-          Serial.println("Switch 4 OFF");
-          digitalWrite(LED_4_PIN, LOW);
-        }
-      }
-        
-    }
-  }
+  receivePacket();
+  updateLeds();
   //readSwitch_1();
   //readSwitch_2();
   //readSwitch_3();

@@ -1,15 +1,19 @@
 const express = require("express");
+var cors = require('cors');
+const bodyParser = require('body-parser');
 const { spawn } = require('child_process');
-var cors = require('cors')
 var app = express()
 
 app.use(cors())
 
+app.use(bodyParser.json());
+
 const port = 8081;
 
-app.get('/switch/:id', (req, res) => {
-    console.log(req.params)
-    const python = spawn('python', ['sendMulCast.py', req.params.id]);
+app.post('/switch', (req, res) => {
+    console.log(req.body)
+    const state = req.body.state ? "1" : "0"
+    const python = spawn('python', ['sendMulCast.py', req.body.id, state]);
     python.stdout.on('data', function (data) {
         console.log('Pipe data from python script ...');
         dataToSend = data.toString();
