@@ -1,12 +1,6 @@
-.app {
+.buttonLine {
     border: solid 2px black;
     margin: 2em;
     display: flex;
     padding: 1rem;
-    /*justify-content: space-around;
-    align-items: stretch;
-    width: 100%;
-    height: 100%;
-    margin: 0%;
-    padding: 0%; */
 }

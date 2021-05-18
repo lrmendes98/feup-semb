@@ -12,8 +12,7 @@ const port = 8081;
 
 app.post('/switch', (req, res) => {
     console.log(req.body)
-    const state = req.body.state ? "1" : "0"
-    const python = spawn('python', ['sendMulCast.py', req.body.id, state]);
+    const python = spawn('python', ['sendMulCast.py', req.body.id]);
     python.stdout.on('data', function (data) {
         console.log('Pipe data from python script ...');
         dataToSend = data.toString();
