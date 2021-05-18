@@ -9,6 +9,10 @@
 #define SWITCH2_ID 2
 #define SWITCH3_ID 3
 #define SWITCH4_ID 4
+#define LED1_ID 1
+#define LED2_ID 2
+#define LED3_ID 3
+#define LED4_ID 4
 
 #define BUFFER_LENGTH 256
 char incomingPacket[BUFFER_LENGTH];
@@ -49,7 +53,8 @@ void receivePacket(int switches[]) {
       int id;
       if (len == 1)
         id = (int)incomingPacket[0] - 48;
-       else id = ((int)incomingPacket[0] - 48)*10 + ((int)incomingPacket[1] - 48);
+      else if (len == 2)
+        id = ((int)incomingPacket[0] - 48)*10 + ((int)incomingPacket[1] - 48);
       switches[id] = !switches[id];
     }
   }
@@ -57,6 +62,28 @@ void receivePacket(int switches[]) {
 
 void sendPacket(int id) {
   char msg = (char) id + 48;
+  Serial.print("Sent: ");
+  Serial.println(msg);
+  Udp.beginPacketMulticast(multicastAddress, multicastPort, WiFi.localIP());
+  Udp.write(msg);
+  Udp.endPacket();
+}
+
+void sendPacket(int id, int state) {
+  char msg[4];
+  if (id > 9) {
+    msg[0] = (char) id/10 + 48;
+    msg[1] = (char) id%10 + 48;
+    msg[2] = 32;
+    msg[3] = (char) state + 48;
+    msg[4] = 0;
+  } else {
+    msg[0] = (char) id + 48;
+    msg[1] = 32;
+    msg[2] = (char) state + 48;
+    msg[3] = 0;
+  }
+  
   Serial.print("Sent: ");
   Serial.println(msg);
   Udp.beginPacketMulticast(multicastAddress, multicastPort, WiFi.localIP());

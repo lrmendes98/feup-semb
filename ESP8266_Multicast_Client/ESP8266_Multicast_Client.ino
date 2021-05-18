@@ -1,4 +1,3 @@
-#include "network.h"
 #include "hardware.h"
 
 #define SWITCH_N 32
@@ -75,4 +74,5 @@ void loop() {
   readSwitch_3();
   readSwitch_4();
   updateLeds(switches);
+  delay(200);
 }

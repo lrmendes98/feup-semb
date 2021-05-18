@@ -47,16 +47,6 @@ function App() {
         <SwitchComponent id="0"></SwitchComponent>
       </div>
       <div className="buttonLine">
-        <SwitchComponent id="25"></SwitchComponent>
-        <SwitchComponent id="26"></SwitchComponent>
-        <SwitchComponent id="27"></SwitchComponent>
-        <SwitchComponent id="28"></SwitchComponent>
-        <SwitchComponent id="29"></SwitchComponent>
-        <SwitchComponent id="30"></SwitchComponent>
-        <SwitchComponent id="31"></SwitchComponent>
-        <SwitchComponent id="0"></SwitchComponent>
-      </div>
-      <div className="buttonLine">
         <LedComponent id="1"></LedComponent>
         <LedComponent id="2"></LedComponent>
         <LedComponent id="3"></LedComponent>
