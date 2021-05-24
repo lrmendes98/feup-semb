@@ -1,4 +1,8 @@
 #include "schedule.h"
+#include "hardware.h"
+#include "network.h"
+
+
 
 /**************** Arduino framework ********************/
 
@@ -6,7 +10,13 @@
 // used to configure hardware resources and software structures
 
 void setup() {
-  setupAll();
+  delay(1000);
+
+  Serial.begin(115200);
+  setupHardware();
+  post();
+  setupLogic();
+  setupNetwork();
   
   // run the kernel initialization routine
   Sched_Init();
@@ -25,17 +35,17 @@ void setup() {
   // S and F from T1 always appear together --> T1 executes without preemption
 
   noInterrupts(); // disable all interrupts
- 
+
   timer1_isr_init();
   timer1_attachInterrupt(Sched_Schedule);
   timer1_enable(TIM_DIV256, TIM_EDGE, TIM_LOOP);
   timer1_write(1000);
-  interrupts(); // enable all interrupts  
+  interrupts(); // enable all interrupts
 }
 
 
 // the loop function runs over and over again forever
 void loop() {
   // invokes the dispatcher to execute the highest priority ready task
-  Sched_Dispatch();  
+  Sched_Dispatch();
 }

@@ -6,24 +6,10 @@
 
 int localSwitches[4];
 
-void setupHardware() {
-  pinMode(LED_1_PIN, OUTPUT);
-  pinMode(LED_2_PIN, OUTPUT);
-  pinMode(LED_3_PIN, OUTPUT);
-  pinMode(LED_4_PIN, OUTPUT);
-  pinMode(SWITCH_1_PIN, INPUT_PULLUP);
-  pinMode(SWITCH_2_PIN, INPUT_PULLUP);
-  pinMode(SWITCH_3_PIN, INPUT_PULLUP);
-  pinMode(SWITCH_4_PIN, INPUT_PULLUP);
-}
-
-void setupAll() {
+void setupLogic() {
   for (int i = 0; i < SWITCH_N; i++) {
     switches[i] = 0;
   }
-  Serial.begin(115200);
-  setupHardware();
-  setupNetwork();
 }
 
 void readSwitch_1() {
@@ -63,13 +49,13 @@ void readSwitch_4() {
 }
 
 //void loop() {
-  //receivePacket(switches);
-  //readSwitch_1();
-  //readSwitch_2();
-  //readSwitch_3();
-  //readSwitch_4();
-  //updateLeds();
-  //delay(200);
+//receivePacket(switches);
+//readSwitch_1();
+//readSwitch_2();
+//readSwitch_3();
+//readSwitch_4();
+//updateLeds();
+//delay(200);
 //}
 
 #endif
