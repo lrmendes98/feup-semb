@@ -4,15 +4,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include "user_interface.h"
-
-#define SWITCH1_ID 1
-#define SWITCH2_ID 2
-#define SWITCH3_ID 3
-#define SWITCH4_ID 4
-#define LED1_ID 1
-#define LED2_ID 2
-#define LED3_ID 3
-#define LED4_ID 4
+#include "config.h"
 
 #define BUFFER_LENGTH 256
 char incomingPacket[BUFFER_LENGTH];
@@ -21,8 +13,8 @@ char incomingPacket[BUFFER_LENGTH];
 int switches[SWITCH_N];
 
 // local network settings
-const char* ssid = "HUAWEI P10";
-const char* password = "2072cac61e06";
+const char* ssid = SSID;
+const char* password = PASSWORD;
 
 // multicast settings
 IPAddress multicastAddress(239, 0, 0, 1);
@@ -57,7 +49,7 @@ void receivePacket() {
       if (len == 1)
         id = (int)incomingPacket[0] - 48;
       else if (len == 2)
-        id = ((int)incomingPacket[0] - 48)*10 + ((int)incomingPacket[1] - 48);
+        id = ((int)incomingPacket[0] - 48) * 10 + ((int)incomingPacket[1] - 48);
       switches[id] = !switches[id];
     }
   }
@@ -75,8 +67,8 @@ void sendPacket(int id) {
 void sendPacket(int id, int state) {
   char msg[4];
   if (id > 9) {
-    msg[0] = (char) id/10 + 48;
-    msg[1] = (char) id%10 + 48;
+    msg[0] = (char) id / 10 + 48;
+    msg[1] = (char) id % 10 + 48;
     msg[2] = 32;
     msg[3] = (char) state + 48;
     msg[4] = 0;
@@ -86,7 +78,7 @@ void sendPacket(int id, int state) {
     msg[2] = (char) state + 48;
     msg[3] = 0;
   }
-  
+
   Serial.print("Sent: ");
   Serial.println(msg);
   Udp.beginPacketMulticast(multicastAddress, multicastPort, WiFi.localIP());

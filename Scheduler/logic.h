@@ -2,6 +2,7 @@
 #define _LOGIC_H
 
 #include "hardware.h"
+#include "config.h"
 
 int localSwitches[4];
 

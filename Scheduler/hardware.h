@@ -2,15 +2,8 @@
 #define _HARDWARE_H
 
 #include "network.h"
+#include "config.h"
 
-const int LED_1_PIN = 14;
-const int LED_2_PIN = 12;
-const int LED_3_PIN = 13;
-const int LED_4_PIN = 15;
-const int SWITCH_1_PIN = 0;
-const int SWITCH_2_PIN = 2;
-const int SWITCH_3_PIN = 5;
-const int SWITCH_4_PIN = 4;
 
 void updateLeds() {
   int led1State = ( switches[1] + switches[17] + switches[18] + switches[20] + switches[22] )%2;
