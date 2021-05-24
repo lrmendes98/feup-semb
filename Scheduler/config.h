@@ -33,16 +33,16 @@
 
 /**************** LUIS MENDES CONFIG ********************/
 // LED configuration
-#define LED_1_PIN 14
-#define LED_2_PIN 12
-#define LED_3_PIN 13
-#define LED_4_PIN 15
+#define LED_1_PIN 15
+#define LED_2_PIN 13
+#define LED_3_PIN 12
+#define LED_4_PIN 14
 
 // Interrupt switch configuration
-#define SWITCH_1_PIN 0
-#define SWITCH_2_PIN 2
-#define SWITCH_3_PIN 5
-#define SWITCH_4_PIN 4
+#define SWITCH_1_PIN 2
+#define SWITCH_2_PIN 0
+#define SWITCH_3_PIN 4
+#define SWITCH_4_PIN 5
 
 // Network ID's
 #define SWITCH1_ID 5
