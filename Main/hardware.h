@@ -23,16 +23,16 @@ void post() {
 
   int small_delay = 60;
 
-  for (int i = 0; i < led_array_size; i++) {
+  for (unsigned int i = 0; i < led_array_size; i++) {
     digitalWrite(led_array[i], 1);
   }
   delay(1000);
-  for (int i = 0; i < led_array_size; i++) {
+  for (unsigned int i = 0; i < led_array_size; i++) {
     digitalWrite(led_array[i], 0);
   }
 
   // fancy flash
-  for (int i = 0; i < led_array_size; i++) {
+  for (unsigned int i = 0; i < led_array_size; i++) {
     digitalWrite(led_array[i], 1);
     delay(small_delay);
     digitalWrite(led_array[i], 0);
@@ -48,21 +48,21 @@ void post() {
   delay(500);
 
   // Flash switches ON state
-  for (int i = 0; i < led_array_size; i++) {
+  for (unsigned int i = 0; i < led_array_size; i++) {
     digitalWrite(led_array[i], !digitalRead(switch_array[i]));
   }
 
   delay(700);
 
   // Flash switches OFF state
-  for (int i = 0; i < led_array_size; i++) {
+  for (unsigned int i = 0; i < led_array_size; i++) {
     digitalWrite(led_array[i], digitalRead(switch_array[i]));
   }
 
   delay(700);
 
   // Leds OFF
-  for (int i = 0; i < led_array_size; i++) {
+  for (unsigned int i = 0; i < led_array_size; i++) {
     digitalWrite(led_array[i], 0);
   }
 

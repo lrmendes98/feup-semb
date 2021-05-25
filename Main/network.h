@@ -46,11 +46,14 @@ void receivePacket() {
       Serial.print("Received: ");
       Serial.printf("%s\n", incomingPacket);
       int id;
-      if (len == 1)
-        id = (int)incomingPacket[0] - 48;
-      else if (len == 2)
-        id = ((int)incomingPacket[0] - 48) * 10 + ((int)incomingPacket[1] - 48);
-      switches[id] = !switches[id];
+      if (len == 1 || len == 2) {
+        if (len == 1)
+          id = (int)incomingPacket[0] - 48;
+        else if (len == 2)
+          id = ((int)incomingPacket[0] - 48) * 10 + ((int)incomingPacket[1] - 48);
+        switches[id] = !switches[id];
+      }
+      
     }
   }
 }
@@ -71,7 +74,6 @@ void sendPacket(int id, int state) {
     msg[1] = (char) id % 10 + 48;
     msg[2] = 32;
     msg[3] = (char) state + 48;
-    msg[4] = 0;
   } else {
     msg[0] = (char) id + 48;
     msg[1] = 32;

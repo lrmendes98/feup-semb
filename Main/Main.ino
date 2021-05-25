@@ -25,10 +25,10 @@ void setup() {
   // for the moment, ticks in 10ms -- see below timer frequency
   Sched_AddT(receivePacket, 1, 10);   // task id=0 --> highest priority
   Sched_AddT(updateLeds, 1, 200);
-  Sched_AddT(readSwitch_1, 1, 1000);
-  Sched_AddT(readSwitch_2, 1, 1000);
-  Sched_AddT(readSwitch_3, 1, 1000);
-  Sched_AddT(readSwitch_4, 1, 1000);
+  Sched_AddT(readSwitch_1, 1, 500);
+  Sched_AddT(readSwitch_2, 1, 500);
+  Sched_AddT(readSwitch_3, 1, 500);
+  Sched_AddT(readSwitch_4, 1, 500);
 
   // though T4 wakes up every 100 ms it will not preempt T1 the executes betwee 200 and 500 ms!
   // observe that the "4" written by T4 never appears between the S and F of T1
