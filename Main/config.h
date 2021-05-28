@@ -33,7 +33,7 @@
 
 /**************** LUIS MENDES CONFIG ********************/
 // LED configuration
-#define LED_1_PIN 15
+/*#define LED_1_PIN 15
 #define LED_2_PIN 13
 #define LED_3_PIN 12
 #define LED_4_PIN 14
@@ -57,7 +57,7 @@
 // Network
 #define SSID "Redmi Note 9S";
 #define PASSWORD "1c64aee4ca58";
-
+*/
 
 /**************** MIGUEL ROMARIZ CONFIG ********************/
 
@@ -90,7 +90,33 @@
 
 /**************** PEDRO CONFIG ********************/
 
+// LED configuration
+#define LED_1_PIN 14
+#define LED_2_PIN 12
+#define LED_3_PIN 13
+#define LED_4_PIN 15
 
+// Interrupt switch configuration
+#define SWITCH_1_PIN 0
+#define SWITCH_2_PIN 2
+#define SWITCH_3_PIN 5
+#define SWITCH_4_PIN 4
+
+// Network ID's
+#define SWITCH1_ID 13
+#define SWITCH2_ID 14
+#define SWITCH3_ID 15
+#define SWITCH4_ID 16
+#define LED1_ID 13
+#define LED2_ID 14
+#define LED3_ID 15
+#define LED4_ID 16
+
+// Network
+//#define SSID "POCOPHONE super";
+//#define PASSWORD "skrt1010";
+#define SSID "HUAWEI P10";
+#define PASSWORD "2072cac61e06";
 
 
 #endif
