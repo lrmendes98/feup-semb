@@ -61,13 +61,15 @@ void receivePacket() {
 }
 
 void sendPacket(int id) {
-  char msg[2];
+  char msg[3];
   if (id > 9) {
     msg[0] = (char) (id / 10 + 48);
     msg[1] = (char) (id % 10 + 48);
+    msg[2] = 0;
   } else {
     msg[0] = (char) (id + 48);
     msg[1] = 0;
+    msg[2] = 0;
   }
   Serial.print("Sent: ");
   Serial.println(msg);
