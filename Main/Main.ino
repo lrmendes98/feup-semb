@@ -38,7 +38,7 @@ void setup() {
 
   timer1_isr_init();
   timer1_attachInterrupt(Sched_Schedule);
-  timer1_enable(TIM_DIV256, TIM_EDGE, TIM_LOOP);
+  timer1_enable(TIM_DIV16, TIM_EDGE, TIM_LOOP);
   timer1_write(1000);
   interrupts(); // enable all interrupts
 }
