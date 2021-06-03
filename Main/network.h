@@ -9,9 +9,6 @@
 #define BUFFER_LENGTH 256
 char incomingPacket[BUFFER_LENGTH];
 
-#define SWITCH_N 32
-int switches[SWITCH_N];
-
 // local network settings
 const char* ssid = SSID;
 const char* password = PASSWORD;
@@ -21,7 +18,7 @@ IPAddress multicastAddress(239, 0, 0, 1);
 unsigned int multicastPort = 4444;
 WiFiUDP Udp;
 
-void setupNetwork() {
+int setupNetwork() {
   WiFi.mode(WIFI_STA); //station
   wifi_set_sleep_type(NONE_SLEEP_T); //LIGHT_SLEEP_T and MODE_SLEEP_T
   Serial.print("Connecting to ");
@@ -33,8 +30,10 @@ void setupNetwork() {
     delay(1000);
     Serial.print(++i); Serial.print(' ');
   }
-  Serial.println("Connection established!");
+  Serial.println("\nConnection established!");
   Udp.beginMulticast(WiFi.localIP(), multicastAddress, multicastPort);
+
+  return 0;
 }
 
 void receivePacket() {

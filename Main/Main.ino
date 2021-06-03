@@ -16,7 +16,9 @@ void setup() {
   setupHardware();
   post();
   setupLogic();
-  setupNetwork();
+  if (setupNetwork() == 0) {
+    blink_leds();
+  }
   
   // run the kernel initialization routine
   Sched_Init();

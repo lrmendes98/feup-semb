@@ -15,6 +15,28 @@ void setupHardware() {
   pinMode(SWITCH_4_PIN, INPUT_PULLUP);
 }
 
+void blink_leds() {
+  const size_t led_array_size = 4;
+  int led_array[led_array_size] = {LED_1_PIN, LED_2_PIN, LED_3_PIN, LED_4_PIN};
+  int switch_array[led_array_size] = {SWITCH_1_PIN, SWITCH_2_PIN, SWITCH_3_PIN, SWITCH_4_PIN};
+
+  for (int i = 0; i < led_array_size; i++) {
+    digitalWrite(led_array[i], 1);
+  }
+  delay(100);
+  for (int i = 0; i < led_array_size; i++) {
+    digitalWrite(led_array[i], 0);
+  }
+  delay(100);
+  for (int i = 0; i < led_array_size; i++) {
+    digitalWrite(led_array[i], 1);
+  }
+  delay(100);
+  for (int i = 0; i < led_array_size; i++) {
+    digitalWrite(led_array[i], 0);
+  }
+}
+
 void post() {
   Serial.print("\nStarting POST");
   const size_t led_array_size = 4;
