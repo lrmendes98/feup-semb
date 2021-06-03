@@ -25,17 +25,17 @@ void setup() {
 
   // add all periodic tasks  (code, offset, period) in ticks
   // for the moment, ticks in 10ms -- see below timer frequency
-  Sched_AddT(receivePacket, 1, 10);   // task id=0 --> highest priority
+  Sched_AddT(receivePacket, 1, 21);   // task id=0 --> highest priority
 
 #ifdef LUIS_ARDUINO
-  Sched_AddT(read_light_sensor, 1, 200);
+  Sched_AddT(read_light_sensor, 1, 156);
 #endif
 
-  Sched_AddT(updateLeds, 1, 200);
-  Sched_AddT(readSwitch_1, 1, 500);
-  Sched_AddT(readSwitch_2, 1, 500);
-  Sched_AddT(readSwitch_3, 1, 500);
-  Sched_AddT(readSwitch_4, 1, 500);
+  Sched_AddT(readSwitch_1, 1, 156);
+  Sched_AddT(readSwitch_2, 1, 156);
+  Sched_AddT(readSwitch_3, 1, 156);
+  Sched_AddT(readSwitch_4, 1, 156);
+  Sched_AddT(updateLeds, 1, 312);
 
   // though T4 wakes up every 100 ms it will not preempt T1 the executes betwee 200 and 500 ms!
   // observe that the "4" written by T4 never appears between the S and F of T1

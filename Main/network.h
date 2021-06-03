@@ -59,28 +59,34 @@ void receivePacket() {
   }
 }
 
-char * toArray(int number)
-{
-  int n = floor(log10(number)) + 1;
+char * toArray(int number, int valueSize) {
   int i;
-  char *numberArray = (char*) calloc(n, sizeof(char));
-  for (i = n - 1; i >= 0; --i, number /= 10)
-  {
-    numberArray[i] = (number % 10) + '0';
+  char *numberArray = (char*) calloc(valueSize + 1, sizeof(char));
+  for (i = valueSize - 1; i >= 0; --i, number /= 10) {
+    numberArray[i] = (number % 10) + 48;
   }
+  numberArray[valueSize] = '\0';
   return numberArray;
 }
 
 void send_light_packet(int value) {
-  char* msg;
+  int valueSize = floor(log10(value)) + 1;
+ 
 
-  msg = toArray(value);
+  char* msg = (char*) calloc(valueSize+3, sizeof(char));
+  char* valueArray = toArray(value, valueSize);
+  msg[0] = (char) (0 + 48);
+  msg[1] = 32;
+  memcpy(msg + 2, valueArray, (valueSize+1) * sizeof(char));
 
-  Serial.print("Sent: ");
+  Serial.print("Sent Light: ");
   Serial.println(msg);
   Udp.beginPacketMulticast(multicastAddress, multicastPort, WiFi.localIP());
   Udp.write(msg);
   Udp.endPacket();
+
+  free(valueArray);
+  free(msg);
 }
 
 void sendPacket(int id) {

@@ -14,8 +14,6 @@ void setupLogic() {
 
 void read_light_sensor() {
   int value = analogRead(A0);
-  Serial.print("Light Value: ");
-  Serial.println(value);
   send_light_packet(value);
 }
 
