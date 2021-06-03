@@ -15,19 +15,14 @@ void setupLogic() {
   }
 }
 
-void read_light_sensor() {
-  Serial.println();
-
+void read_sensors_data() {
   int chk = DHT11.read(DHT11PIN);
 
-  Serial.print("Humidity (%): ");
-  Serial.println((float)DHT11.humidity, 2);
-
-  Serial.print("Temperature (C): ");
-  Serial.println((float)DHT11.temperature, 2);
-
-  int value = analogRead(A0);
-  send_light_packet(value);
+  int humidity = (int)DHT11.humidity;
+  int temperature = (int)DHT11.temperature;
+  int brightness = analogRead(A0);
+  
+  send_light_packet(brightness, temperature, humidity);
 }
 
 void readSwitch_1() {

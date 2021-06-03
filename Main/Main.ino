@@ -3,14 +3,13 @@
 #include "network.h"
 
 
-
 /**************** Arduino framework ********************/
 
 // the setup function runs once when you press reset or power the board
 // used to configure hardware resources and software structures
 
 void setup() {
-  delay(1000);
+  delay(100);
 
   Serial.begin(115200);
   setupHardware();
@@ -28,7 +27,7 @@ void setup() {
   Sched_AddT(receivePacket, 1, 21);   // task id=0 --> highest priority
 
 #ifdef LUIS_ARDUINO
-  Sched_AddT(read_light_sensor, 1, 156);
+  Sched_AddT(read_sensors_data, 1, 156);
 #endif
 
   Sched_AddT(readSwitch_1, 1, 156);
@@ -55,4 +54,5 @@ void setup() {
 void loop() {
   // invokes the dispatcher to execute the highest priority ready task
   Sched_Dispatch();
+
 }

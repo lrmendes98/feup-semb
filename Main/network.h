@@ -69,23 +69,45 @@ char * toArray(int number, int valueSize) {
   return numberArray;
 }
 
-void send_light_packet(int value) {
-  int valueSize = floor(log10(value)) + 1;
- 
+void send_light_packet(int brightnessValue, int temperatureValue, int humidityValue) {
+  int brightnessValueSize = floor(log10(brightnessValue)) + 1;
+  int temperatureValueSize = floor(log10(temperatureValue)) + 1;
+  int humidityValueSize = floor(log10(humidityValue)) + 1;
 
-  char* msg = (char*) calloc(valueSize+3, sizeof(char));
-  char* valueArray = toArray(value, valueSize);
+  // Allocate the adequate array size + 1 per array, + id + 3 spaces
+  char* msg = (char*) calloc(brightnessValueSize + 1 + temperatureValueSize + 1 + humidityValue + 1 + 4, sizeof(char));
+  char* brightnessValueArray = toArray(brightnessValue, brightnessValueSize);
+  char* temperatureValueArray = toArray(temperatureValue, temperatureValueSize);
+  char* humidityValueArray = toArray(humidityValue, humidityValueSize);
+
+  // id = 0
   msg[0] = (char) (0 + 48);
-  msg[1] = 32;
-  memcpy(msg + 2, valueArray, (valueSize+1) * sizeof(char));
 
-  Serial.print("Sent Light: ");
+  // Append space
+  msg[1] = 32;
+
+  // Append brightness array value
+  memcpy(msg + 2, brightnessValueArray, (brightnessValueSize + 1) * sizeof(char));
+
+  // Append space, current size = 2 + brightnessValueSize + 1
+  msg[2 + brightnessValueSize] = 32;
+
+  // Append temperature value
+  memcpy(msg + 2 + 1 + temperatureValueSize + 1, temperatureValueArray, (temperatureValueSize + 1) * sizeof(char));
+
+  // Append space, current size = 2 + brightnessValueSize + 1 + temperatureValueSize + 1
+  msg[2 + brightnessValueSize + temperatureValueSize + 1] = 32;
+
+  // Append humidity value
+  memcpy(msg + 2 + 1 + temperatureValueSize + 1 + humidityValueSize + 1, humidityValueArray, (humidityValueSize + 1) * sizeof(char));
+
+  Serial.print("Sent Data: ");
   Serial.println(msg);
   Udp.beginPacketMulticast(multicastAddress, multicastPort, WiFi.localIP());
   Udp.write(msg);
   Udp.endPacket();
 
-  free(valueArray);
+  free(brightnessValueArray);
   free(msg);
 }
 
