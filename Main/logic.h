@@ -3,6 +3,9 @@
 
 #include "hardware.h"
 #include "config.h"
+#include <dht11.h>
+#define DHT11PIN 16
+dht11 DHT11;
 
 int localSwitches[4];
 
@@ -13,6 +16,16 @@ void setupLogic() {
 }
 
 void read_light_sensor() {
+  Serial.println();
+
+  int chk = DHT11.read(DHT11PIN);
+
+  Serial.print("Humidity (%): ");
+  Serial.println((float)DHT11.humidity, 2);
+
+  Serial.print("Temperature (C): ");
+  Serial.println((float)DHT11.temperature, 2);
+
   int value = analogRead(A0);
   send_light_packet(value);
 }
