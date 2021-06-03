@@ -26,12 +26,12 @@ void setup() {
   // add all periodic tasks  (code, offset, period) in ticks
   // for the moment, ticks in 10ms -- see below timer frequency
   Sched_AddT(receivePacket, 1, 10);   // task id=0 --> highest priority
-  Sched_AddT(updateLeds, 1, 200);
-  
+
 #ifdef LUIS_ARDUINO
   Sched_AddT(read_light_sensor, 1, 200);
 #endif
 
+  Sched_AddT(updateLeds, 1, 200);
   Sched_AddT(readSwitch_1, 1, 500);
   Sched_AddT(readSwitch_2, 1, 500);
   Sched_AddT(readSwitch_3, 1, 500);
@@ -45,7 +45,7 @@ void setup() {
 
   timer1_isr_init();
   timer1_attachInterrupt(Sched_Schedule);
-  timer1_enable(TIM_DIV16, TIM_EDGE, TIM_LOOP);
+  timer1_enable(TIM_DIV256, TIM_EDGE, TIM_LOOP);
   timer1_write(1000);
   interrupts(); // enable all interrupts
 }

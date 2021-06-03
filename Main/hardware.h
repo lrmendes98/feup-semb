@@ -15,12 +15,6 @@ void setupHardware() {
   pinMode(SWITCH_4_PIN, INPUT_PULLUP);
 }
 
-void read_light_sensor() {
-  int value = analogRead(A0);
-  Serial.print("Light Value: ");
-  Serial.println(value);
-}
-
 void blink_leds() {
   const size_t led_array_size = 4;
   int led_array[led_array_size] = {LED_1_PIN, LED_2_PIN, LED_3_PIN, LED_4_PIN};

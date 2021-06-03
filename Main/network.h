@@ -54,9 +54,33 @@ void receivePacket() {
           id = ((int)incomingPacket[0] - 48) * 10 + ((int)incomingPacket[1] - 48);
         switches[id] = !switches[id];
       }
-      
+
     }
   }
+}
+
+char * toArray(int number)
+{
+  int n = floor(log10(number)) + 1;
+  int i;
+  char *numberArray = (char*) calloc(n, sizeof(char));
+  for (i = n - 1; i >= 0; --i, number /= 10)
+  {
+    numberArray[i] = (number % 10) + '0';
+  }
+  return numberArray;
+}
+
+void send_light_packet(int value) {
+  char* msg;
+
+  msg = toArray(value);
+
+  Serial.print("Sent: ");
+  Serial.println(msg);
+  Udp.beginPacketMulticast(multicastAddress, multicastPort, WiFi.localIP());
+  Udp.write(msg);
+  Udp.endPacket();
 }
 
 void sendPacket(int id) {
