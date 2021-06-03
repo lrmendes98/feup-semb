@@ -60,7 +60,7 @@
 */
 
 /**************** MIGUEL ROMARIZ CONFIG ********************/
-
+/*
 // LED configuration
 #define LED_1_PIN 14
 #define LED_2_PIN 12
@@ -86,10 +86,10 @@
 // Network
 #define SSID "HUAWEI P10";
 #define PASSWORD "2072cac61e06";
-
+*/
 
 /**************** PEDRO CONFIG ********************/
-
+/*
 // LED configuration
 #define LED_1_PIN 14
 #define LED_2_PIN 12
@@ -117,6 +117,6 @@
 //#define PASSWORD "skrt1010";
 #define SSID "HUAWEI P10";
 #define PASSWORD "2072cac61e06";
-
+*/
 
 #endif
