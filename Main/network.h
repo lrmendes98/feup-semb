@@ -93,13 +93,13 @@ void send_light_packet(int brightnessValue, int temperatureValue, int humidityVa
   msg[2 + brightnessValueSize] = 32;
 
   // Append temperature value
-  memcpy(msg + 2 + 1 + temperatureValueSize + 1, temperatureValueArray, (temperatureValueSize + 1) * sizeof(char));
+  memcpy(msg + 2 + brightnessValueSize + 1, temperatureValueArray, (temperatureValueSize + 1) * sizeof(char));
 
   // Append space, current size = 2 + brightnessValueSize + 1 + temperatureValueSize + 1
   msg[2 + brightnessValueSize + temperatureValueSize + 1] = 32;
 
   // Append humidity value
-  memcpy(msg + 2 + 1 + temperatureValueSize + 1 + humidityValueSize + 1, humidityValueArray, (humidityValueSize + 1) * sizeof(char));
+  memcpy(msg + 2 + brightnessValueSize + 1 + temperatureValueSize + 1, humidityValueArray, (humidityValueSize + 1) * sizeof(char));
 
   Serial.print("Sent Data: ");
   Serial.println(msg);
@@ -108,6 +108,8 @@ void send_light_packet(int brightnessValue, int temperatureValue, int humidityVa
   Udp.endPacket();
 
   free(brightnessValueArray);
+  free(temperatureValueArray);
+  free(humidityValueArray);
   free(msg);
 }
 
