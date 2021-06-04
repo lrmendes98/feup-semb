@@ -4,9 +4,9 @@
 #include "hardware.h"
 #include "config.h"
 #ifdef LUIS_ARDUINO
-  #include <dht11.h>
-  #define DHT11PIN 16
-  dht11 DHT11;
+#include <dht11.h>
+#define DHT11PIN 16
+dht11 DHT11;
 #endif
 
 int localSwitches[4];
@@ -24,6 +24,12 @@ void read_sensors_data() {
   int humidity = (int)DHT11.humidity;
   int temperature = (int)DHT11.temperature;
   int brightness = analogRead(A0);
+
+#ifdef LUIS_ARDUINO
+  climateValues[0] = brightness;
+  climateValues[1] = temperature;
+  climateValues[2] = humidity;
+#endif
 
   send_light_packet(brightness, temperature, humidity);
 }
