@@ -75,7 +75,7 @@ void send_light_packet(int brightnessValue, int temperatureValue, int humidityVa
   int humidityValueSize = floor(log10(humidityValue)) + 1;
 
   // Allocate the adequate array size + 1 per array, + id + 3 spaces
-  char* msg = (char*) calloc(brightnessValueSize + 1 + temperatureValueSize + 1 + humidityValue + 1 + 4, sizeof(char));
+  char* msg = (char*) calloc(brightnessValueSize + 1 + temperatureValueSize + 1 + humidityValueSize + 1 + 4, sizeof(char));
   char* brightnessValueArray = toArray(brightnessValue, brightnessValueSize);
   char* temperatureValueArray = toArray(temperatureValue, temperatureValueSize);
   char* humidityValueArray = toArray(humidityValue, humidityValueSize);
