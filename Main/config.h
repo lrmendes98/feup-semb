@@ -2,7 +2,7 @@
 #define _CONFIG_H
 
 /**************** JOAO CARDOSO CONFIG ********************/
-
+/*
   // LED configuration
   #define LED_1_PIN 14
   #define LED_2_PIN 12
@@ -29,7 +29,7 @@
   #define SSID "HUAWEI P10";
   #define PASSWORD "2072cac61e06";
 
-
+*/
 
 /**************** LUIS MENDES CONFIG ********************/
 /*
@@ -54,10 +54,7 @@
   #define LED2_ID 6
   #define LED3_ID 7
   #define LED4_ID 8
-
-  #define SWITCH_N 32
-  int switches[SWITCH_N];
-
+  
   // Network
   #define SSID "Redmi Note 9S";
   #define PASSWORD "1c64aee4ca58";
@@ -90,10 +87,6 @@
   #define LED3_ID 11
   #define LED4_ID 12
 
-
-  #define SWITCH_N 32
-  int switches[SWITCH_N];
-
   // Network
   #define SSID "HUAWEI P10";
   #define PASSWORD "2072cac61e06";
@@ -122,10 +115,6 @@
   #define LED2_ID 14
   #define LED3_ID 15
   #define LED4_ID 16
-
-
-  #define SWITCH_N 32
-  int switches[SWITCH_N];
 
   // Network
   //#define SSID "POCOPHONE super";
