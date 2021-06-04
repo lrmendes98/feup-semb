@@ -10,6 +10,10 @@
 #define BUFFER_LENGTH 256
 char incomingPacket[BUFFER_LENGTH];
 
+#define SWITCH_N 32
+int switches[SWITCH_N];
+int climateValues[3];
+
 // local network settings
 const char* ssid = SSID;
 const char* password = PASSWORD;
