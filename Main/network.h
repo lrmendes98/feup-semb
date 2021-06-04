@@ -89,8 +89,9 @@ void send_light_packet(int brightnessValue, int temperatureValue, int humidityVa
   // Append brightness array value
   memcpy(msg + 2, brightnessValueArray, (brightnessValueSize + 1) * sizeof(char));
 
-  // Append space, current size = 2 + brightnessValueSize + 1
-  msg[2 + brightnessValueSize] = 32;
+  // Append space
+  // current size = 2 + brightnessValueSize + 1, using size - 1 because index
+  msg[(2 + brightnessValueSize + 1) - 1] = 32;
 
   // Append temperature value
   memcpy(msg + 2 + brightnessValueSize + 1, temperatureValueArray, (temperatureValueSize + 1) * sizeof(char));
