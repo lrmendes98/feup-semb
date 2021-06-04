@@ -37,6 +37,8 @@
 
 /**************** LUIS MENDES CONFIG ********************/
 /*
+  //#define LUIS_ARDUINO
+  
   // LED configuration
   #define LED_1_PIN 15
   #define LED_2_PIN 13
@@ -63,13 +65,10 @@
   int switches[SWITCH_N];
 
   // Network
-  #define SSID "Redmi Note 9S";
-  #define PASSWORD "1c64aee4ca58";
-  /*
-  #define SSID "MEO-6884F0";
-  #define PASSWORD "12650ec1a7";
+  #define SSID "HUAWEI P10";
+  #define PASSWORD "2072cac61e06";
 */
-* /
+
 
 /**************** MIGUEL ROMARIZ CONFIG ********************/
 /*
