@@ -92,13 +92,11 @@ void post() {
 
 }
 
-
-
 void updateLeds() {
   int led1State = ( switches[1] + switches[17] + switches[18] + switches[20] + switches[22] ) % 2;
   int led2State = ( switches[5] + switches[17] + switches[19] + switches[20] + switches[23] ) % 2;
   int led3State = ( switches[9] + switches[17] + switches[18] + switches[21] + switches[23] ) % 2;
-  int led4State = ( switches[13] + switches[17] + switches[19] + switches[21] + switches[22] ) % 2;
+  int led4State = ( climateValues[0] < 400);
 
   digitalWrite(LED_1_PIN, led1State);
   sendPacket(LED1_ID, led1State);

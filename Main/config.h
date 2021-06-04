@@ -2,7 +2,7 @@
 #define _CONFIG_H
 
 /**************** JOAO CARDOSO CONFIG ********************/
-/*
+
   // LED configuration
   #define LED_1_PIN 14
   #define LED_2_PIN 12
@@ -28,11 +28,12 @@
 
   #define SWITCH_N 32
   int switches[SWITCH_N];
+  int climateValues[3];
 
   // Network
   #define SSID "HUAWEI P10";
   #define PASSWORD "2072cac61e06";
-*/
+
 
 
 /**************** LUIS MENDES CONFIG ********************/
@@ -69,7 +70,6 @@
   #define PASSWORD "2072cac61e06";
 */
 
-
 /**************** MIGUEL ROMARIZ CONFIG ********************/
 /*
   // LED configuration
@@ -86,7 +86,7 @@
 
   // Network ID's
   #define SWITCH1_ID 9
-  #define SWITCH2_ID 1
+  #define SWITCH2_ID 10
   #define SWITCH3_ID 11
   #define SWITCH4_ID 12
   #define LED1_ID 9

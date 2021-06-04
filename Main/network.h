@@ -3,6 +3,7 @@
 
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
+#include <string.h>
 #include "user_interface.h"
 #include "config.h"
 
@@ -47,14 +48,24 @@ void receivePacket() {
       Serial.print("with length ");
       Serial.println(len);
       int id;
-      if (len == 1 || len == 2) {
+      if ((int)incomingPacket[0] - 48 == 0) {
+        char* msg = (char*) calloc(len, sizeof(char));
+        memcpy(msg, incomingPacket, len * sizeof(char));
+        char* token;
+        token = strtok(msg, " ");
+        for (int i = 0; i < 3; i++) {
+          token = strtok(NULL, " ");
+          climateValues[i] = atoi(token);
+        }
+        free(msg);
+      }
+      else if (len == 1 || len == 2) {
         if (len == 1)
           id = (int)incomingPacket[0] - 48;
         else if (len == 2)
           id = ((int)incomingPacket[0] - 48) * 10 + ((int)incomingPacket[1] - 48);
         switches[id] = !switches[id];
       }
-
     }
   }
 }
