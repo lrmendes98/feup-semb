@@ -1,5 +1,6 @@
 import SwitchComponent from './components/SwitchComponent';
 import LedComponent from './components/LedComponent';
+import ResetSwitchComponent from './components/ResetSwitchComponent';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -54,7 +55,7 @@ function App() {
           <SwitchComponent id="29"></SwitchComponent>
           <SwitchComponent id="30"></SwitchComponent>
           <SwitchComponent id="31"></SwitchComponent>
-          <SwitchComponent id="0"></SwitchComponent>
+          <ResetSwitchComponent></ResetSwitchComponent>
         </div>
         <div className="group">
           <LedComponent id="1"></LedComponent>
