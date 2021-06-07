@@ -15,6 +15,7 @@ void setupLogic() {
   for (int i = 0; i < SWITCH_N; i++) {
     switches[i] = 0;
   }
+  climateValues[0] = 1000;
 }
 
 #ifdef LUIS_ARDUINO
