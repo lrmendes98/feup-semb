@@ -14,18 +14,18 @@ char incomingPacket[BUFFER_LENGTH];
 int switches[SWITCH_N];
 int climateValues[3];
 
-// local network settings
+/* local network settings */
 const char* ssid = SSID;
 const char* password = PASSWORD;
 
-// multicast settings
+/* multicast settings */
 IPAddress multicastAddress(239, 0, 0, 1);
 unsigned int multicastPort = 4444;
 WiFiUDP Udp;
 
-int setupNetwork() {
-  WiFi.mode(WIFI_STA); //station
-  wifi_set_sleep_type(NONE_SLEEP_T); //LIGHT_SLEEP_T and MODE_SLEEP_T
+int setupNetwork(void) {
+  WiFi.mode(WIFI_STA); /* station */
+  wifi_set_sleep_type(NONE_SLEEP_T); /* LIGHT_SLEEP_T and MODE_SLEEP_T */
   Serial.print("Connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
@@ -41,7 +41,7 @@ int setupNetwork() {
   return 0;
 }
 
-void receivePacket() {
+void receivePacket(void) {
   int packetLength = Udp.parsePacket();
   if (packetLength) {
     int len = Udp.read(incomingPacket, BUFFER_LENGTH);
@@ -89,32 +89,32 @@ void send_light_packet(int brightnessValue, int temperatureValue, int humidityVa
   int temperatureValueSize = floor(log10(temperatureValue)) + 1;
   int humidityValueSize = floor(log10(humidityValue)) + 1;
 
-  // Allocate the adequate array size + 1 per array, + id + 3 spaces
+  /* Allocate the adequate array size + 1 per array, + id + 3 spaces */
   char* msg = (char*) calloc(brightnessValueSize + 1 + temperatureValueSize + 1 + humidityValueSize + 1 + 4, sizeof(char));
   char* brightnessValueArray = toArray(brightnessValue, brightnessValueSize);
   char* temperatureValueArray = toArray(temperatureValue, temperatureValueSize);
   char* humidityValueArray = toArray(humidityValue, humidityValueSize);
 
-  // id = 0
+  /* id = 0 */
   msg[0] = (char) (0 + 48);
 
-  // Append space
+  /* Append space */
   msg[1] = 32;
 
-  // Append brightness array value
+  /* Append brightness array value */
   memcpy(msg + 2, brightnessValueArray, (brightnessValueSize + 1) * sizeof(char));
 
-  // Append space
-  // current size = 2 + brightnessValueSize + 1, using size - 1 because index
+  /* Append space */
+  /* current size = 2 + brightnessValueSize + 1, using size - 1 because index */
   msg[(2 + brightnessValueSize + 1) - 1] = 32;
 
-  // Append temperature value
+  /* Append temperature value */
   memcpy(msg + 2 + brightnessValueSize + 1, temperatureValueArray, (temperatureValueSize + 1) * sizeof(char));
 
-  // Append space, current size = 2 + brightnessValueSize + 1 + temperatureValueSize + 1
+  /* Append space, current size = 2 + brightnessValueSize + 1 + temperatureValueSize + 1 */
   msg[2 + brightnessValueSize + temperatureValueSize + 1] = 32;
 
-  // Append humidity value
+  /* Append humidity value */
   memcpy(msg + 2 + brightnessValueSize + 1 + temperatureValueSize + 1, humidityValueArray, (humidityValueSize + 1) * sizeof(char));
 
   Serial.print("Sent Data: ");
@@ -129,7 +129,7 @@ void send_light_packet(int brightnessValue, int temperatureValue, int humidityVa
   free(msg);
 }
 
-void sendPacket(int id) {
+void sendSwitchPacket(int id) {
   char msg[3];
   if (id > 9) {
     msg[0] = (char) (id / 10 + 48);
@@ -147,7 +147,7 @@ void sendPacket(int id) {
   Udp.endPacket();
 }
 
-void sendPacket(int id, int state) {
+void sendLedPacket(int id, int state) {
   char msg[5];
   if (id > 9) {
     msg[0] = (char) (id / 10 + 48);

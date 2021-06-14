@@ -2,15 +2,15 @@
 #include "hardware.h"
 #include "network.h"
 
-
-/**************** Arduino framework ********************/
-
-// the setup function runs once when you press reset or power the board
-// used to configure hardware resources and software structures
-
-void setup() {
+/**
+* Sets up the serial monitor baudrate
+* Sets up the hardware, logic and network initial steps
+* Runs the initial kernel initialization routine 
+* Adds tasks to the schedule
+* Sets up the timer for the interruptions
+*/
+void setup(void) {
   delay(100);
-
   Serial.begin(115200);
   setupHardware();
   post();
@@ -19,12 +19,10 @@ void setup() {
     blink_leds();
   }
 
-  // run the kernel initialization routine
+  /* run the kernel initialization routine */
   Sched_Init();
 
-  // add all periodic tasks  (code, offset, period) in ticks
-  // for the moment, ticks in 10ms -- see below timer frequency
-  Sched_AddT(receivePacket, 1, 21);   // task id=0 --> highest priority
+  Sched_AddT(receivePacket, 1, 21);
 
 #ifdef LUIS_ARDUINO
   Sched_AddT(read_sensors_data, 1, 156);
@@ -36,23 +34,19 @@ void setup() {
   Sched_AddT(readSwitch_4, 1, 156);
   Sched_AddT(updateLeds, 1, 312);
 
-  // though T4 wakes up every 100 ms it will not preempt T1 the executes betwee 200 and 500 ms!
-  // observe that the "4" written by T4 never appears between the S and F of T1
-  // S and F from T1 always appear together --> T1 executes without preemption
-
-  noInterrupts(); // disable all interrupts
+  /* disable all interrupts */
+  noInterrupts(); 
 
   timer1_isr_init();
   timer1_attachInterrupt(Sched_Schedule);
   timer1_enable(TIM_DIV256, TIM_EDGE, TIM_LOOP);
   timer1_write(1000);
-  interrupts(); // enable all interrupts
+
+  /* enable all interrupts */
+  interrupts();
 }
 
-
-// the loop function runs over and over again forever
-void loop() {
-  // invokes the dispatcher to execute the highest priority ready task
+void loop(void) {
+  /* invokes the dispatcher to execute the highest priority ready task */
   Sched_Dispatch();
-
 }
